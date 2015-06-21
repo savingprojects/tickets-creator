@@ -1,0 +1,94 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-menu/core-menu.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../paper-dropdown/paper-dropdown.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-fab/paper-fab.html">
+
+<polymer-element name="tickets-creator" attributes="selector">
+	<template>
+		<style>
+			:host{
+				display: flex;
+				align-items: flex-end;
+			}
+
+			paper-input-decorator{
+				margin-right: 10px;
+			}
+
+			paper-dropdown-menu{
+				margin-bottom: 11px;
+			}
+
+			paper-fab{
+				margin-left: 20px;
+				margin-bottom: 10px;
+			}
+
+			#user{
+
+			}
+
+			#desc{
+				flex: 1;
+			}
+
+		</style>
+
+		<paper-input-decorator id="user" label="user..." floatinglabel>
+			<input id="userInput" is="core-input" type="text" value="{{user}}" />
+		</paper-input-decorator>
+		<paper-input-decorator id="desc" label="ticket description..." floatinglabel>
+			<input id="descInput" is="core-input" type="text" value="{{description}}" />
+		</paper-input-decorator>
+
+		<paper-dropdown-menu label="type...">
+			<paper-dropdown class="dropdown">
+				<core-menu class="menu" id="typeInput">
+					<paper-item label="lights">lights</paper-item>
+					<paper-item label="air-quality">air-quality</paper-item>
+					<paper-item label="window">window</paper-item>
+				</core-menu>
+			</paper-dropdown>
+		</paper-dropdown-menu>
+
+		<paper-fab mini icon="arrow-forward" style="background: #0191C5" on-tap="{{actionCreate}}"></paper-fab>
+
+	</template>
+
+
+
+	<script>
+		Polymer({
+			ready: function(){
+
+			},
+
+			actionCreate: function(){
+				if(!this.selector) return ;
+
+				var from = this.$.userInput.value;
+				var desc = this.$.descInput.value;
+				var type = this.$.typeInput.selectedItem.attributes.label.value;
+
+				if(from === '' || desc === '' || type === '') return ;
+
+				d1(this.selector).request({
+					service: 'ticketing',
+					func: 'CreateTicket',
+					data: {
+						from: from,
+						description: desc,
+						type: type
+					}
+				}, function(peerId, err, data){
+					console.log(err);
+					console.log(data);
+					console.log(peerId);
+				});
+			}
+		})
+	</script>
+</polymer-element>
