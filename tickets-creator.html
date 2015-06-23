@@ -74,7 +74,7 @@
 
 				var from = this.$.userInput.value;
 				var desc = this.$.descInput.value;
-				var type = this.$.typeInput.selectedItem.attributes.label.value;
+				var type = this.$.typeInput.selectedItem ? this.$.typeInput.selectedItem.attributes.label.value : '';
 
 				if(from === '' || desc === '' || type === '') return ;
 
