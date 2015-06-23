@@ -67,6 +67,9 @@
 			},
 
 			actionCreate: function(){
+
+				this.fire('ticket-created');
+
 				if(!this.selector) return ;
 
 				var from = this.$.userInput.value;
